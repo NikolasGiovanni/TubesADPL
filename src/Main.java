@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("TEST");
         PizzaManagerFacade facade = new PizzaManagerFacade();
         Scanner scanner = new Scanner(System.in);
 
