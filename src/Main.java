@@ -7,29 +7,60 @@ public class Main {
 
         boolean running = true;
         while (running) {
-            facade.displayToppingMenu();
-            System.out.print("Select a topping (1-5, or 0 to finish): ");
+            System.out.println("Main Menu:");
+            System.out.println("1. Choose crust");
+            System.out.println("2. Choose topping");
+            System.out.println("3. Add custom topping");
+            System.out.println("4. Undo last action");
+            System.out.println("5. Display order");
+            System.out.println("0. Finish order");
+            System.out.print("Select an option (0-5): ");
             int choice = scanner.nextInt();
             scanner.nextLine();  // Consume newline
 
-            if (choice == 1 || choice == 2 || choice == 3) {
-                facade.addTopping(choice, "");
-            } else if (choice == 4) {
-                System.out.print("Enter custom topping name: ");
-                String customName = scanner.nextLine();
-                facade.addTopping(choice, customName);
-            } else if (choice == 5) {
-                facade.undo();
-            } else if (choice == 0) {
-                running = false;
-            } else {
-                System.out.println("Invalid choice. Please select again.");
+            switch (choice) {
+                case 1:
+                    facade.displayCrustMenu();
+                    System.out.print("Select a crust (1-3): ");
+                    int crustChoice = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    facade.setCrust(crustChoice);
+                    break;
+
+                case 2:
+                    facade.displayToppingMenu();
+                    System.out.print("Select a topping (1-3): ");
+                    int toppingChoice = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+                    facade.addTopping(toppingChoice, "");
+                    break;
+
+                case 3:
+                    System.out.print("Enter custom topping name: ");
+                    String customName = scanner.nextLine();
+                    facade.addTopping(4, customName);
+                    break;
+
+                case 4:
+                    facade.undo();
+                    break;
+
+                case 5:
+                    System.out.println("Current Order: " + facade.getOrder());
+                    break;
+
+                case 0:
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please select again.");
             }
 
-            System.out.println("Current Toppings: " + facade.getToppings());
+            System.out.println("Current Order: " + facade.getOrder());
         }
 
-        System.out.println("Final Toppings: " + facade.getToppings());
+        System.out.println("Final Order: " + facade.getOrder());
         scanner.close();
     }
 }
