@@ -46,7 +46,7 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println("Pesanan sekarang: \n" + facade.getOrder());
+                    System.out.println("Pesanan sekarang:\n" + facade.getOrder());
                     break;
 
                 case 0:
@@ -58,7 +58,7 @@ public class Main {
             }
         }
 
-        System.out.println("Pesanan: " + facade.getOrder());
+        System.out.println("Pesanan:\n" + facade.getOrder());
         scanner.close();
     }
 }
