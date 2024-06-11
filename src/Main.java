@@ -8,20 +8,20 @@ public class Main {
         boolean running = true;
         while (running) {
             System.out.println("Main Menu:");
-            System.out.println("1. Choose crust");
-            System.out.println("2. Choose topping");
-            System.out.println("3. Add custom topping");
-            System.out.println("4. Undo last action");
-            System.out.println("5. Display order");
-            System.out.println("0. Finish order");
-            System.out.print("Select an option (0-5): ");
+            System.out.println("1. Pilih crust");
+            System.out.println("2. Pilih topping");
+            System.out.println("3. Pilih custom topping");
+            System.out.println("4. Undo");
+            System.out.println("5. Tunjukan pesanan");
+            System.out.println("0. Selesai");
+            System.out.print("Silahkan pilih menu: ");
             int choice = scanner.nextInt();
             scanner.nextLine();  // Consume newline
 
             switch (choice) {
                 case 1:
                     facade.displayCrustMenu();
-                    System.out.print("Select a crust (1-3): ");
+                    System.out.print("Pilih crust: ");
                     int crustChoice = scanner.nextInt();
                     scanner.nextLine();  // Consume newline
                     facade.setCrust(crustChoice);
@@ -29,14 +29,14 @@ public class Main {
 
                 case 2:
                     facade.displayToppingMenu();
-                    System.out.print("Select a topping (1-3): ");
+                    System.out.print("Pilih topping: ");
                     int toppingChoice = scanner.nextInt();
                     scanner.nextLine();  // Consume newline
                     facade.addTopping(toppingChoice, "");
                     break;
 
                 case 3:
-                    System.out.print("Enter custom topping name: ");
+                    System.out.print("Masukan custom topping yang diinginkan: ");
                     String customName = scanner.nextLine();
                     facade.addTopping(4, customName);
                     break;
@@ -46,7 +46,7 @@ public class Main {
                     break;
 
                 case 5:
-                    System.out.println("Current Order: " + facade.getOrder());
+                    System.out.println("Pesanan sekarang: \n" + facade.getOrder());
                     break;
 
                 case 0:
@@ -54,13 +54,11 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println("Invalid choice. Please select again.");
+                    System.out.println("Masukan nomor yang terdaftar pada menu");
             }
-
-            System.out.println("Current Order: " + facade.getOrder());
         }
 
-        System.out.println("Final Order: " + facade.getOrder());
+        System.out.println("Pesanan: " + facade.getOrder());
         scanner.close();
     }
 }

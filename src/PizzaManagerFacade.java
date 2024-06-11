@@ -8,14 +8,20 @@ public class PizzaManagerFacade {
     private Crust crust;
     private boolean crustSelected = false;
 
+    public PizzaManagerFacade() {
+        this.crust = CrustFactory.createCrust(0);  // Default to Normal Crust
+        this.originator.setState(getOrder());
+        this.caretaker.add(this.originator.saveStateToMemento());
+    }
+
     public void setCrust(int crustType) {
-        if (!crustSelected) {
+        if (!crustSelected || crust instanceof NormalCrust) {
             crust = CrustFactory.createCrust(crustType);
             crustSelected = true;
             originator.setState(getOrder());
             caretaker.add(originator.saveStateToMemento());
         } else {
-            System.out.println("Crust has already been selected.");
+            System.out.println("Hanya bisa memilih 1 jenis crust");
         }
     }
 
@@ -32,14 +38,8 @@ public class PizzaManagerFacade {
             ToppingMemento memento = caretaker.get(caretaker.size() - 1);
             originator.getStateFromMemento(memento);
             restoreState(originator.getState());
-        } else if (caretaker.size() == 1) {
-            crust = null;
-            crustSelected = false;
-            toppings.clear();
-            caretaker.removeLast();
-            originator.setState("");
         } else {
-            System.out.println("No previous states to revert to.");
+            System.out.println("Tidak ada aksi untuk di-undo");
         }
     }
 
@@ -48,7 +48,7 @@ public class PizzaManagerFacade {
     }
 
     public String getCrust() {
-        return crust != null ? crust.getName() : "No crust selected";
+        return crust != null ? crust.getName() : "Normal Crust";
     }
 
     public String getOrder() {
@@ -65,8 +65,16 @@ public class PizzaManagerFacade {
 
     private void restoreState(String state) {
         String[] parts = state.split(", Toppings: ");
-        crust = parts[0].equals("No crust selected") ? null : CrustFactory.createCrustByName(parts[0].substring(7));
-        crustSelected = crust != null;
+        if (parts[0].startsWith("Crust:")) {
+            String crustName = parts[0].substring(7).trim();
+            if (CrustFactory.isValidCrust(crustName)) {
+                crust = CrustFactory.createCrustByName(crustName);
+                crustSelected = true;
+            } else {
+                crust = CrustFactory.createCrust(0);  // Default to Normal Crust
+                crustSelected = false;
+            }
+        }
         if (parts.length > 1) {
             setToppingsFromString(parts[1]);
         } else {
@@ -93,17 +101,16 @@ public class PizzaManagerFacade {
     }
 
     public void displayCrustMenu() {
-        System.out.println("Available Crusts:");
+        System.out.println("Pilih crust:");
         System.out.println("1. Thin Crust");
         System.out.println("2. Cheesy Bites Crust");
         System.out.println("3. Stuffed Crust");
     }
 
     public void displayToppingMenu() {
-        System.out.println("Available Toppings:");
+        System.out.println("Pilih topping:");
         System.out.println("1. Cheese");
         System.out.println("2. Pepperoni");
         System.out.println("3. Veggie");
     }
 }
-
